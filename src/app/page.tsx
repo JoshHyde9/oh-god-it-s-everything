@@ -51,7 +51,7 @@ export default function Home() {
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getAllUsers"] });
@@ -70,7 +70,7 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-center font-bold text-3xl">
-        Hello fromNextjs, TailwindCSS, Shadcn UI, Elysiajs, Prisma & Tanstack
+        Hello from Nextjs, TailwindCSS, Shadcn UI, Elysiajs, Prisma & Tanstack
         Query
       </h1>
 
