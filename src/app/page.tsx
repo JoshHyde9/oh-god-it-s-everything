@@ -63,16 +63,25 @@ export default function Home() {
     queryFn: () => api.user.allUsers.get(),
   });
 
+  const { data: welcomeMessage } = useQuery({
+    queryKey: ["helloWorld"],
+    queryFn: () => api.hello.get(),
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(values);
   };
 
   return (
     <div>
-      <h1 className="text-center font-bold text-3xl">
-        Hello from Nextjs, TailwindCSS, Shadcn UI, Elysiajs, Prisma & Tanstack
-        Query
-      </h1>
+      <div className="text-center">
+        <h1 className="font-bold text-3xl mb-4">
+          Hello from Nextjs, TailwindCSS, Shadcn UI, Elysiajs, Prisma & Tanstack
+          Query
+        </h1>
+
+        <h2 className="text-center text-2xl">{!isPending ? welcomeMessage?.data : "Loading..."}</h2>
+      </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -113,11 +122,12 @@ export default function Home() {
         </form>
       </Form>
 
-      {isPending && <p className="mt-5">Loading...</p>}
+      {isPending && !data && <p className="mt-5">Loading...</p>}
 
       <div className="mt-5">
-        {!isPending && data && 
-          data.data.map((user: User) => (
+        {!isPending &&
+          data?.data &&
+          data?.data.map((user: User) => (
             <div key={user.id} className="border-b mt-5 pb-2">
               <h1>{user.name}</h1>
               <p>{user.email}</p>
