@@ -58,7 +58,7 @@ export default function Home() {
     },
   });
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["getAllUsers"],
     queryFn: () => api.user.allUsers.get(),
   });
@@ -113,8 +113,10 @@ export default function Home() {
         </form>
       </Form>
 
+      {isPending && <p className="mt-5">Loading...</p>}
+
       <div className="mt-5">
-        {data &&
+        {!isPending && data && 
           data.data.map((user: User) => (
             <div key={user.id} className="border-b mt-5 pb-2">
               <h1>{user.name}</h1>
